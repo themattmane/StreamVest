@@ -13,6 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+
     <!-- Custom fonts for this template -->
     <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -28,190 +29,11 @@
   <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
   <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
 <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDdD9jd41ryaBKghnyLLTFFGxl3NaACAnU",
-    authDomain: "appx-111e3.firebaseapp.com",
-    databaseURL: "https://appx-111e3.firebaseio.com",
-    projectId: "appx-111e3",
-    storageBucket: "appx-111e3.appspot.com",
-    messagingSenderId: "499972269993"
-  };
+<script src="/static/customjs/firebase-setup.js"></script>
 
-  firebase.initializeApp(config);
-
+<script src="/static/firebase-signup.js">
+    var authtype = {{ authtype }};
 </script>
-
-  <script type="text/javascript">
-    /**
-     * Handles the sign in button press.
-     */
-    function toggleSignIn() {
-      if (firebase.auth().currentUser) {
-        // [START signout]
-        firebase.auth().signOut();
-        // [END signout]
-      } else {
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
-        if (email.length < 4) {
-          alert('Please enter an email address.');
-          return;
-        }
-        if (password.length < 4) {
-          alert('Please enter a password.');
-          return;
-        }
-        // Sign in with email and pass.
-        // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // [START_EXCLUDE]
-          if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
-          document.getElementById('quickstart-sign-in').disabled = false;
-          // [END_EXCLUDE]
-        });
-        // [END authwithemail]
-      }
-      document.getElementById('quickstart-sign-in').disabled = true;
-    }
-    /**
-     * Handles the sign up button press.
-     */
-    function handleSignUp() {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
-      if (email.length < 4) {
-        alert('Please enter an email address.');
-        return;
-      }
-      if (password.length < 4) {
-        alert('Please enter a password.');
-        return;
-      }
-      // Sign in with email and pass.
-      // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-        sendEmailVerification();
-
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-            alert(errorMessage);
-        }
-
-
-        console.log(error);
-        // [END_EXCLUDE]
-      });
-      // [END createwithemail]
-    }
-    /**
-     * Sends an email verification to the user.
-     */
-    function sendEmailVerification() {
-      // [START sendemailverification]
-      firebase.auth().currentUser.sendEmailVerification().then(function() {
-        // Email Verification sent!
-        // [START_EXCLUDE]
-        alert('Email Verification Sent!');
-        // [END_EXCLUDE]
-      });
-      // [END sendemailverification]
-    }
-    function sendPasswordReset() {
-      var email = document.getElementById('email').value;
-      // [START sendpasswordemail]
-      firebase.auth().sendPasswordResetEmail(email).then(function() {
-        // Password Reset Email Sent!
-        // [START_EXCLUDE]
-        alert('Password Reset Email Sent!');
-        // [END_EXCLUDE]
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/invalid-email') {
-          alert(errorMessage);
-        } else if (errorCode == 'auth/user-not-found') {
-          alert(errorMessage);
-        }
-        console.log(error);
-        // [END_EXCLUDE]
-      });
-      // [END sendpasswordemail];
-    }
-    /**
-     * initApp handles setting up UI event listeners and registering Firebase auth listeners:
-     *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
-     *    out, and that is where we update the UI.
-     */
-    function initApp() {
-      // Listening for auth state changes.
-      // [START authstatelistener]
-      firebase.auth().onAuthStateChanged(function(user) {
-        // [START_EXCLUDE silent]
-        document.getElementById('quickstart-verify-email').disabled = true;
-        // [END_EXCLUDE]
-        if (user) {
-          // User is signed in.
-          var displayName = user.displayName;
-          var email = user.email;
-          var emailVerified = user.emailVerified;
-          var photoURL = user.photoURL;
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
-          var providerData = user.providerData;
-          // [START_EXCLUDE]
-          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-          document.getElementById('quickstart-sign-in').textContent = 'Log out';
-          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-          //New Code
-
-          // window.location.replace('/'+ uid);
-          if (!emailVerified) {
-            document.getElementById('quickstart-verify-email').disabled = false;
-          }
-          // [END_EXCLUDE]
-        } else {
-          // User is signed out.
-          // [START_EXCLUDE]
-          document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-          document.getElementById('quickstart-sign-in').textContent = 'Sign in';
-          document.getElementById('quickstart-account-details').textContent = 'null';
-          // New COde
-
-
-          // [END_EXCLUDE]
-        }
-        // [START_EXCLUDE silent]
-        document.getElementById('quickstart-sign-in').disabled = false;
-        // [END_EXCLUDE]
-      });
-      // [END authstatelistener]
-      document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
-      document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
-      document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
-      document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
-    }
-    window.onload = function() {
-      initApp();
-    };
-  </script>
-
 
 
 
@@ -248,19 +70,25 @@
               <a class="nav-link js-scroll-trigger" href="#contact"><i class="fa fa-power-off"> </i> Logout</a>
             </li>
           </ul>
+
         </div>
       </div>
+
     </nav>
 
     <!-- Header -->
     <section id="contact">
       <div class="container">
         <div class="intro-text">
+            <h4 id="titleauth"> Sign Up </h4>
+        </div>
+
 
           <input class="form-control" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
           &nbsp;&nbsp;&nbsp;
           <input class="form-control" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
-          <br/><br/>
+
+          <div class="row">
           <button disabled class="btn-primary" id="quickstart-sign-in" name="signin">Sign In</button>
           &nbsp;&nbsp;&nbsp;
           <button class="btn-primary" id="quickstart-sign-up" name="signup">Sign Up</button>
@@ -268,13 +96,16 @@
           <button class="btn-primary" disabled id="quickstart-verify-email" name="verify-email">Send Email Verification</button>
           &nbsp;&nbsp;&nbsp;
           <button class="btn-outline-primary" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
-
+          </div>d
           <!-- Container where we'll display the user details -->
+              <div class="row">
           <div class="quickstart-user-details-container">
             Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
             <div>Firebase auth <code>currentUser</code> object value:</div>
             <pre><code id="quickstart-account-details">null</code></pre>
-          </div>>
+          </div>
+          </div>
+          </div>
         </div>
       </div>
     </section>
@@ -282,40 +113,7 @@
 
     <!-- Services -->
     <section id="services">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">3 Easy Steps</h2>
-            <h3 class="section-subheading text-muted">Start investing in 3 easy steps</h3>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-md-4">
-            <span class="fa-stack fa-4x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-credit-card fa-stack-1x fa-inverse"></i>
-            </span>
-            <h4 class="service-heading">Fund Your Account</h4>
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-          </div>
-          <div class="col-md-4">
-            <span class="fa-stack fa-4x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-users fa-stack-1x fa-inverse"></i>
-            </span>
-            <h4 class="service-heading">Invest in Projects</h4>
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-          </div>
-          <div class="col-md-4">
-            <span class="fa-stack fa-4x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-dollar fa-stack-1x fa-inverse"></i>
-            </span>
-            <h4 class="service-heading">Collect Earnings</h4>
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-          </div>
-        </div>
-      </div>
+
     </section>
 
     <!-- Portfolio Grid -->

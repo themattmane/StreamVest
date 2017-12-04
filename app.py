@@ -1,8 +1,4 @@
 from flask import Flask, render_template
-from firebase import firebase
-# connect to appp
-
-firebase = firebase.FirebaseApplication(''0)
 
 app = Flask(__name__)
 
@@ -18,15 +14,17 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/login2')
+@app.route('/test')
 def login1():
 
     return render_template('market.html')
 
-@app.route('/register')
-def signup():
+@app.route('/auth/', defaults = {'authtype' :'register'})
+@app.route('/auth/<string:authtype>')
+def signup(authtype):
 
-    return render_template('register.html')
+
+    return render_template('register.html', authtype=authtype)
 
 @app.route('/<string:uid>')
 def auth(uid):

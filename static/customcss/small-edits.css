@@ -1,0 +1,30 @@
+.auth-input {
+    width: 100%;
+    color: #0cb634;
+    background-color: white;
+    border-bottom: 2px solid #0cb634;
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    font-size: 21px;
+    border-radius: 2px;
+    padding-left: 13px;
+    font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight:700
+
+}
+.auth-input-div {
+    padding: 7px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: grey;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: grey;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: grey;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: grey;
+}

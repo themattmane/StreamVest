@@ -12,6 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="/static/customcss/small-edits.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -23,18 +24,15 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/agency.min.css" rel="stylesheet">
 
+
+  <!-- Import and configure the Firebase SDK -->
+  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
 <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDdD9jd41ryaBKghnyLLTFFGxl3NaACAnU",
-    authDomain: "appx-111e3.firebaseapp.com",
-    databaseURL: "https://appx-111e3.firebaseio.com",
-    projectId: "appx-111e3",
-    storageBucket: "appx-111e3.appspot.com",
-    messagingSenderId: "499972269993"
-  };
-  firebase.initializeApp(config);
+<script src="/static/customjs/firebase-setup.js"></script>
+
+<script src="/static/firebase-signup.js">
+    var authtype = {{ authtype }};
 </script>
 
   </head>
@@ -44,7 +42,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">SreamVest.it</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">StreamVest.it</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -72,17 +70,64 @@
         </div>
       </div>
     </nav>
+    <script>
+window.onload = function() {
 
+        $("#auth-section").show()
+      $("#calltoaction").hide()
+    // document.getElementById('investbtn').addEventListener('click', showAuth, false)
+}
+  function showAuth() {
+
+  }
+
+    </script>
     <!-- Header -->
     <header class="masthead">
       <div class="container">
         <div class="intro-text">
-          <div class="intro-lead-in">Start Investing with just $10</div>
+            <div id="calltoaction">
+<div class="intro-lead-in">Start Investing with just $10</div>
           <div class="intro-heading text-uppercase">Invest in the Future of Streaming </div>
-          <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/login">Start Investing</a>
-        </div>
+          <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/login"> Invest</a>
+            </div>
+            <div id="auth-section">
+            <table class="mx-auto" >
+                <tr>
+                    <div class="intro-lead-in">Start Investing with StreamVest</div>
+                </tr>
+                <tr>
+                    <td>
+<div class="auth-input-div">
+<div class="input-group">
+<span class="input-group-btn">
+<button class="btn btn-primary" type="button"><i class="fa fa-envelope"></i></button>
+</span>
+<input class="auth-input" type="email"  placeholder="Email" aria-label="Email ">
+</div>
+</div>
+
+<div class="auth-input-div">
+<div class="input-group">
+<span class="input-group-btn">
+<button class="btn btn-primary" type="button"><i class="fa fa-key"></i></button>
+</span>
+<input class="auth-input" type="password"  placeholder="Password" aria-label="Password">
+</div>
+</div>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <a class="btn btn-primary btn-lg text-uppercase js-scroll-trigger" href="/login">Login</a>
+            <a class="btn btn-primary btn-lg text-uppercase js-scroll-trigger" href="/login">Sign Up</a>
+            </div>
+            </div>
       </div>
     </header>
+
+
+
 
     <!-- Services -->
     <section id="services">
